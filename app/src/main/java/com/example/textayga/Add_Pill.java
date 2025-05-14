@@ -1,14 +1,8 @@
 package com.example.textayga;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +13,6 @@ import android.widget.Toast;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 import java.util.concurrent.TimeUnit;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -39,28 +30,28 @@ import androidx.work.WorkManager;
 import com.google.gson.Gson;
 
 public class Add_Pill extends AppCompatActivity {
+    // UI элементы
     private EditText namePill, datePill, countPill, descPill, editTextDaysCount;
-    private Calendar selectedDateTime = Calendar.getInstance();
-    private SharedPreferences prefs;
-    private Gson gson = new Gson();
-    private CheckBox checkBoxRange;
-    private LinearLayout rangeLayout;
-    private CheckBox[] dayCheckboxes;
-    private static final String ACTION_REQUEST_SCHEDULE_EXACT_ALARM =
-            "android.settings.REQUEST_SCHEDULE_EXACT_ALARM";
+    private Calendar selectedDateTime = Calendar.getInstance(); // Текущая дата и время по умолчанию
+    private SharedPreferences prefs; // Хранилище для данных приложения
+    private Gson gson = new Gson(); // Для работы с JSON
+    private CheckBox checkBoxRange; // Чекбокс "Повторять"
+    private LinearLayout rangeLayout; // Контейнер для настроек повтора
+    private CheckBox[] dayCheckboxes; // Чекбоксы дней недели
 
+    // Кнопки навигации
     Button btnCalandar;
     Button btnHomepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // Отключение ночной темы
         setContentView(R.layout.add_pill);
 
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
-        // Инициализация полей ввода
+        // Инициализация всех полей ввода
         namePill = findViewById(R.id.EditTextPillName);
         datePill = findViewById(R.id.EditTextPillDate);
         countPill = findViewById(R.id.EditTextPillCount);
@@ -68,29 +59,32 @@ public class Add_Pill extends AppCompatActivity {
         btnCalandar = findViewById(R.id.buttonCalandar);
         btnHomepage = findViewById(R.id.buttonHomepage);
 
-        // Инициализация элементов для диапазона
+        // Настройка элементов для повторяющихся напоминаний
         checkBoxRange = findViewById(R.id.checkBoxRange);
         rangeLayout = findViewById(R.id.rangeLayout);
         editTextDaysCount = findViewById(R.id.editTextDaysCount);
 
+        // Инициализация чекбоксов дней недели
         dayCheckboxes = new CheckBox[]{
-                findViewById(R.id.monday),
-                findViewById(R.id.tuesday),
-                findViewById(R.id.wednesday),
-                findViewById(R.id.thursday),
-                findViewById(R.id.friday),
-                findViewById(R.id.saturday),
-                findViewById(R.id.sunday)
+                findViewById(R.id.monday),    // Понедельник
+                findViewById(R.id.tuesday),   // Вторник
+                findViewById(R.id.wednesday),  // Среда
+                findViewById(R.id.thursday),   // Четверг
+                findViewById(R.id.friday),     // Пятница
+                findViewById(R.id.saturday),  // Суббота
+                findViewById(R.id.sunday)      // Воскресенье
         };
 
+        // Обработчик изменения состояния чекбокса "Повторять"
         checkBoxRange.setOnCheckedChangeListener((buttonView, isChecked) -> {
             rangeLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
 
+        // Настройка поля даты (только для чтения)
         datePill.setFocusable(false);
         datePill.setOnClickListener(v -> showDateTimePicker());
 
-        // Обработчик кнопки добавления
+        // Обработчик кнопки добавления лекарства
         Button btnAddPill = findViewById(R.id.buttonAddPill);
         btnAddPill.setOnClickListener(v -> {
             if (!checkAllFieldsFilled()) {
@@ -100,7 +94,7 @@ public class Add_Pill extends AppCompatActivity {
             savePill();
         });
 
-        // Кнопки навигации
+        // Обработчики кнопок навигации
         btnCalandar.setOnClickListener(v -> {
             startActivity(new Intent(this, Calandar.class));
             finish();
@@ -112,6 +106,7 @@ public class Add_Pill extends AppCompatActivity {
         });
     }
 
+    // Проверка заполнения всех обязательных полей
     private boolean checkAllFieldsFilled() {
         boolean basicFieldsFilled = !namePill.getText().toString().trim().isEmpty()
                 && !datePill.getText().toString().trim().isEmpty()
@@ -132,6 +127,7 @@ public class Add_Pill extends AppCompatActivity {
         return basicFieldsFilled;
     }
 
+    // Показ диалога выбора даты и времени
     private void showDateTimePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
@@ -157,11 +153,13 @@ public class Add_Pill extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    // Обновление текста в поле даты
     private void updateDateText() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
         datePill.setText(sdf.format(selectedDateTime.getTime()));
     }
 
+    // Сохранение лекарства (выбор типа сохранения)
     private void savePill() {
         if (checkBoxRange.isChecked()) {
             savePillRange();
@@ -170,16 +168,20 @@ public class Add_Pill extends AppCompatActivity {
         }
     }
 
+    // Сохранение одиночного напоминания
     private void saveSinglePill() {
         if (!validateDate()) return;
 
         try {
+            // Обработка количества (только цифры, максимум 1000)
             String countStr = countPill.getText().toString().replaceAll("[^0-9]", "");
             long count = Math.min(Long.parseLong(countStr), 1000);
 
+            // Форматирование даты
             SimpleDateFormat storageFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
             String formattedDate = storageFormat.format(selectedDateTime.getTime());
 
+            // Создание объекта Pill
             MainMenu.Pill newPill = new MainMenu.Pill(
                     namePill.getText().toString().trim(),
                     formattedDate,
@@ -187,8 +189,9 @@ public class Add_Pill extends AppCompatActivity {
                     descPill.getText().toString().trim()
             );
 
+            // Сохранение и планирование уведомления
             savePillToPrefs(newPill, selectedDateTime.getTimeInMillis());
-            scheduleNotification(newPill, selectedDateTime.getTimeInMillis()); // Добавьте эту строку
+            scheduleNotification(newPill, selectedDateTime.getTimeInMillis());
 
             new AppPreferences(this).setFirstRunCompleted();
 
@@ -201,6 +204,7 @@ public class Add_Pill extends AppCompatActivity {
         }
     }
 
+    // Сохранение повторяющегося напоминания
     private void savePillRange() {
         if (!validateDate()) return;
 
@@ -217,7 +221,7 @@ public class Add_Pill extends AppCompatActivity {
             return;
         }
 
-        // Получаем выбранные дни недели
+        // Получение выбранных дней недели
         List<Integer> selectedDays = new ArrayList<>();
         if (dayCheckboxes[0].isChecked()) selectedDays.add(Calendar.MONDAY);
         if (dayCheckboxes[1].isChecked()) selectedDays.add(Calendar.TUESDAY);
@@ -232,23 +236,22 @@ public class Add_Pill extends AppCompatActivity {
             return;
         }
 
-        // Получаем выбранное время
+        // Настройка времени напоминания
         int hour = selectedDateTime.get(Calendar.HOUR_OF_DAY);
         int minute = selectedDateTime.get(Calendar.MINUTE);
         int savedPills = 0;
 
-        // 1. Сначала проверяем сегодняшний день
+        // Проверка сегодняшнего дня
         Calendar today = (Calendar) selectedDateTime.clone();
         today.set(Calendar.HOUR_OF_DAY, hour);
         today.set(Calendar.MINUTE, minute);
         today.set(Calendar.SECOND, 0);
 
-        // Проверяем, выбран ли сегодняшний день в чекбоксах
+        // Если сегодня выбранный день недели
         if (selectedDays.contains(today.get(Calendar.DAY_OF_WEEK))) {
             savePillForDate(today);
             savedPills++;
 
-            // Если нужно только одно напоминание, завершаем
             if (savedPills >= daysCount) {
                 Toast.makeText(this, "Добавлено " + savedPills + " напоминаний", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, MainMenu.class));
@@ -257,16 +260,15 @@ public class Add_Pill extends AppCompatActivity {
             }
         }
 
-        // 2. Затем добавляем остальные напоминания
+        // Добавление напоминаний на следующие дни
         Calendar currentDate = (Calendar) today.clone();
         int daysAdded = 0;
-        int maxAttempts = 1000; // Защита от бесконечного цикла
+        int maxAttempts = 1000; // Лимит итераций
 
         while (savedPills < daysCount && daysAdded < maxAttempts) {
             currentDate.add(Calendar.DAY_OF_YEAR, 1);
             daysAdded++;
 
-            // Проверяем, подходит ли текущий день
             if (selectedDays.contains(currentDate.get(Calendar.DAY_OF_WEEK))) {
                 savePillForDate(currentDate);
                 savedPills++;
@@ -278,6 +280,7 @@ public class Add_Pill extends AppCompatActivity {
         finish();
     }
 
+    // Проверка что дата в будущем
     private boolean validateDate() {
         Calendar now = Calendar.getInstance();
         now.set(Calendar.SECOND, 0);
@@ -294,6 +297,7 @@ public class Add_Pill extends AppCompatActivity {
         return true;
     }
 
+    // Сохранение напоминания для конкретной даты
     private void savePillForDate(Calendar date) {
         try {
             String countStr = countPill.getText().toString().replaceAll("[^0-9]", "");
@@ -310,7 +314,7 @@ public class Add_Pill extends AppCompatActivity {
             );
 
             savePillToPrefs(newPill, date.getTimeInMillis());
-            scheduleNotification(newPill, date.getTimeInMillis()); // Добавьте эту строку
+            scheduleNotification(newPill, date.getTimeInMillis());
 
             new AppPreferences(this).setFirstRunCompleted();
 
@@ -319,34 +323,32 @@ public class Add_Pill extends AppCompatActivity {
         }
     }
 
+    // Сохранение в SharedPreferences
     private void savePillToPrefs(MainMenu.Pill pill, long timestamp) {
         String pillKey = "pill_" + timestamp;
         String pillJson = gson.toJson(pill);
         prefs.edit().putString(pillKey, pillJson).apply();
     }
 
+    // Планирование уведомления через WorkManager
     private void scheduleNotification(MainMenu.Pill pill, long triggerTime) {
-        // Проверяем, что время уведомления в будущем
         long delay = triggerTime - System.currentTimeMillis();
         if (delay <= 0) {
             Log.e("Notification", "Notification time is in the past");
             return;
         }
 
-        // Создаем данные для Worker
         Data inputData = new Data.Builder()
                 .putString("pill_name", pill.name)
                 .putString("pill_time", pill.date.split(" ")[1])
                 .putString("pill_count", pill.count)
                 .build();
 
-        // Создаем WorkRequest
         OneTimeWorkRequest notificationWork = new OneTimeWorkRequest.Builder(PillReminderWorker.class)
                 .setInputData(inputData)
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
                 .build();
 
-        // Запускаем WorkManager
         WorkManager.getInstance(this).enqueue(notificationWork);
     }
 }

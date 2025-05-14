@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Экран "Без целей" с фоновым изображением и элементами интерфейса -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,102 +10,57 @@
     android:background="@drawable/background"
     tools:context=".NoGoalMenu">
 
+    <!-- Текст-подсказка о необходимости постановки задач -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="245dp"
         android:layout_height="65dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="45dp"
-        android:paddingStart="1dp"
         android:text="Решите свои задачи на сегодня, чтобы начать отслеживать свой прогресс"
         android:textColor="#2F281F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:textSize="18sp"/>
 
+    <!-- Декоративный круглый элемент из кожи (фон для иконки) -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="208dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/leather_circle" />
+        app:srcCompat="@drawable/leather_circle"/>
 
+    <!-- Основная иконка экрана (изображение цели) -->
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="140dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/image_goal" />
+        app:srcCompat="@drawable/image_goal"/>
 
+    <!-- Заголовок раздела задач -->
     <TextView
         android:id="@+id/textViewGoal"
         android:layout_width="326dp"
         android:layout_height="38dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="452dp"
-        android:paddingStart="5dp"
         android:text="Задачи с первого взгляда"
         android:textColor="#2F281F"
         android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:textStyle="bold"/>
 
+    <!-- Поясняющий текст о функционале раздела -->
     <TextView
         android:id="@+id/textView4"
         android:layout_width="345dp"
         android:layout_height="85dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="501dp"
-        android:text="Ваши ежедневные задачи
- отображаются здесь, когда вы
- запланируете Лечение"
+        android:text="Ваши ежедневные задачи отображаются здесь, когда вы запланируете Лечение"
         android:textAlignment="center"
         android:textColor="#2F281F"
-        android:textSize="23sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:textSize="23sp"/>
 
+    <!-- Кнопка перехода в раздел "Лечение" -->
     <Button
         android:id="@+id/buttonHeal"
         android:layout_width="364dp"
         android:layout_height="52dp"
         android:background="@drawable/button_next"
         android:text="Перейти в раздел Лечение"
-        android:textAllCaps="false"
         android:textColor="#EBE2D8"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.874" />
+        android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

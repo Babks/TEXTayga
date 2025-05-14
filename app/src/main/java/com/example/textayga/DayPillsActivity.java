@@ -1,16 +1,13 @@
 package com.example.textayga;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,27 +17,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import android.content.res.Configuration;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.LocaleList;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.Locale;
-
+// Отображает список таблеток на выбранный день, загружая данные из SharedPreferences
 public class DayPillsActivity extends AppCompatActivity {
     private LinearLayout pillsLayout;
     private TextView dateTitle;
     private SharedPreferences prefs;
     private Gson gson = new Gson();
-    private String storageDate; // Храним дату в формате "dd.MM.yyyy"
+    private String storageDate; // Дата для фильтрации таблеток в формате "dd.MM.yyyy"
 
     Button btnCalandar;
     Button btnHomepage;
@@ -49,19 +37,21 @@ public class DayPillsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Добавьте этот флаг, чтобы предотвратить наслоение активностей
+        // Защита от наложения активностей при повторном запуске
         if (getIntent() != null && !getIntent().hasExtra("from_notification")) {
             getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         setContentView(R.layout.activity_day_pills);
 
+        // Инициализация UI-элементов
         pillsLayout = findViewById(R.id.pillsLayout);
         dateTitle = findViewById(R.id.dateTitle);
         btnCalandar = findViewById(R.id.buttonCalandar);
         btnHomepage = findViewById(R.id.buttonHomepage);
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
+        // Обработка аппаратной кнопки "назад"
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -69,26 +59,27 @@ public class DayPillsActivity extends AppCompatActivity {
             }
         });
 
-        // Получаем даты из интента
+        // Получаем выбранную пользователем дату
         String displayDate = getIntent().getStringExtra("selectedDate");
         storageDate = getIntent().getStringExtra("storageDate");
 
         dateTitle.setText(displayDate);
-        loadDayPills();
+        loadDayPills(); // Загружаем таблетки за выбранную дату
 
-        // Кнопки навигации
+        // Переход к календарю
         btnCalandar.setOnClickListener(v -> {
             startActivity(new Intent(this, Calandar.class));
             finish();
         });
 
-
+        // Переход на главный экран
         btnHomepage.setOnClickListener(v -> {
             startActivity(new Intent(this, MainMenu.class));
             finish();
         });
     }
 
+    // Возврат в главное меню
     private void navigateToMainMenu() {
         Intent intent = new Intent(this, MainMenu.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -96,6 +87,7 @@ public class DayPillsActivity extends AppCompatActivity {
         finish();
     }
 
+    // Загружает и отображает таблетки за выбранную дату
     private void loadDayPills() {
         pillsLayout.removeAllViews();
         Map<String, ?> allEntries = prefs.getAll();
@@ -105,6 +97,7 @@ public class DayPillsActivity extends AppCompatActivity {
                 if (entry.getKey().startsWith("pill_")) {
                     try {
                         Object value = entry.getValue();
+                        // В SharedPreferences может храниться как JSON-строка, так и случайно сохранённое число
                         String pillJson = (value instanceof Integer) ? String.valueOf(value) : (String) value;
                         MainMenu.Pill pill = gson.fromJson(pillJson, MainMenu.Pill.class);
 
@@ -113,6 +106,7 @@ public class DayPillsActivity extends AppCompatActivity {
                             continue;
                         }
 
+                        // Сравниваем только дату без времени
                         String pillDateStr = pill.date.split(" ")[0];
                         if (pillDateStr.equals(storageDate)) {
                             addPillView(pill);
@@ -123,6 +117,7 @@ public class DayPillsActivity extends AppCompatActivity {
                 }
             }
 
+            // Если не найдено ни одной таблетки
             if (pillsLayout.getChildCount() == 0) {
                 TextView emptyView = new TextView(this);
                 emptyView.setText("Нет лекарств на этот день");
@@ -137,27 +132,28 @@ public class DayPillsActivity extends AppCompatActivity {
         }
     }
 
+    // Добавляет представление отдельной таблетки в список
     private void addPillView(MainMenu.Pill pill) {
         LinearLayout pillItem = new LinearLayout(this);
         pillItem.setOrientation(LinearLayout.VERTICAL);
         pillItem.setPadding(32, 24, 32, 24);
         pillItem.setBackgroundResource(R.drawable.pill_item_background);
 
-        // Основной контейнер для содержимого
+        // Основной горизонтальный контейнер
         LinearLayout contentLayout = new LinearLayout(this);
         contentLayout.setOrientation(LinearLayout.HORIZONTAL);
         contentLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        // Контейнер для текстовой информации
+        // Контейнер с текстом (название, дата, описание)
         LinearLayout textLayout = new LinearLayout(this);
         textLayout.setOrientation(LinearLayout.VERTICAL);
         textLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
 
-        // Название лекарства
+        // Название таблетки
         TextView nameView = new TextView(this);
         nameView.setText(pill.name);
         nameView.setTextSize(18);
@@ -165,21 +161,21 @@ public class DayPillsActivity extends AppCompatActivity {
         nameView.setTypeface(null, Typeface.BOLD);
         textLayout.addView(nameView);
 
-        // Дата и время
+        // Дата и время приёма
         TextView dateView = new TextView(this);
         try {
             SimpleDateFormat srcFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
             Date date = srcFormat.parse(pill.date);
             dateView.setText(new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(date));
         } catch (ParseException e) {
-            dateView.setText(pill.date.split(" ")[0]);
+            dateView.setText(pill.date.split(" ")[0]); // fallback
         }
         dateView.setTextSize(14);
         dateView.setTextColor(Color.parseColor("#2F281F"));
         dateView.setPadding(0, 8, 0, 0);
         textLayout.addView(dateView);
 
-        // Количество таблеток
+        // Количество
         TextView countView = new TextView(this);
         countView.setText(PillUtils.getPillCountString(pill.count));
         countView.setTextSize(14);
@@ -187,7 +183,7 @@ public class DayPillsActivity extends AppCompatActivity {
         countView.setPadding(0, 8, 0, 0);
         textLayout.addView(countView);
 
-        // Описание
+        // Описание (если есть)
         if (!pill.description.isEmpty()) {
             TextView descView = new TextView(this);
             descView.setText(pill.description);
@@ -197,31 +193,28 @@ public class DayPillsActivity extends AppCompatActivity {
             textLayout.addView(descView);
         }
 
-        // Добавляем текстовый контейнер в основной
         contentLayout.addView(textLayout);
 
-        // Добавляем иконку статуса (если есть)
+        // Добавляем иконку статуса: принята / пропущена
         addStatusIcon(contentLayout, pill);
 
-        // Добавляем основной контейнер в элемент
+        // Добавляем собранный элемент в список
         pillItem.addView(contentLayout);
-
         pillsLayout.addView(pillItem);
     }
 
+    // Добавляет иконку статуса таблетки (принята / пропущена)
     private void addStatusIcon(LinearLayout parentLayout, MainMenu.Pill pill) {
-        // Проверяем статус таблетки
         String statusKey = "pill_status_" + pill.name + "_" + pill.date;
         String status = prefs.getString(statusKey, null);
 
-        // Если статус не установлен, проверяем, не устарела ли таблетка
+        // Если статус не задан, проверяем — не прошло ли уже время приёма
         if (status == null) {
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
                 Date pillDate = sdf.parse(pill.date);
                 Date now = new Date();
 
-                // Если время приема таблетки прошло, отмечаем как пропущенную
                 if (pillDate.before(now)) {
                     status = "missed";
                     prefs.edit().putString(statusKey, status).apply();
@@ -231,7 +224,6 @@ public class DayPillsActivity extends AppCompatActivity {
             }
         }
 
-        // Если статус есть, добавляем соответствующую иконку
         if (status != null) {
             ImageView statusIcon = new ImageView(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -240,6 +232,7 @@ public class DayPillsActivity extends AppCompatActivity {
             params.gravity = Gravity.CENTER_VERTICAL;
             statusIcon.setLayoutParams(params);
 
+            // Устанавливаем иконку
             if (status.equals("taken")) {
                 statusIcon.setImageResource(R.drawable.ic_check);
             } else if (status.equals("missed")) {
@@ -250,6 +243,7 @@ public class DayPillsActivity extends AppCompatActivity {
         }
     }
 
+    // Преобразование dp в пиксели
     private int dpToPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }

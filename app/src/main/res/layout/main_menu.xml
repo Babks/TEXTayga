@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Главный экран приложения с ConstraintLayout в качестве корневого элемента -->
+<!-- Фон бежевого цвета (#EBE2D8) и контекст MainMenu для связки с Activity -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,6 +11,7 @@
     android:background="#EBE2D8"
     tools:context=".MainMenu">
 
+    <!-- Кнопка календаря в правом верхнем углу с иконкой из drawable -->
     <Button
         android:id="@+id/buttonCalandar"
         android:layout_width="36dp"
@@ -20,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
+    <!-- Заголовок "Сегодня" с крупным жирным текстом -->
     <TextView
         android:id="@+id/textViewMainMenu"
         android:layout_width="293dp"
@@ -36,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.125" />
 
-
+    <!-- Блок с прогрессом приема лекарств (в рамке из drawable) -->
     <TextView
         android:id="@+id/textViewProgress"
         android:layout_width="308dp"
@@ -56,6 +61,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.211" />
 
+    <!-- Подзаголовок "Список" перед списком лекарств -->
     <TextView
         android:id="@+id/textViewSpisok"
         android:layout_width="90dp"
@@ -70,6 +76,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.352" />
+
+    <!-- Прокручиваемый список лекарств (контейнер для динамического наполнения) -->
     <ScrollView
         android:layout_width="308dp"
         android:layout_height="250dp"
@@ -81,6 +89,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.602">
 
+        <!-- LinearLayout будет заполняться элементами списка программно -->
         <LinearLayout
             android:id="@+id/linearLayoutPills"
             android:layout_width="match_parent"
@@ -88,20 +97,21 @@
             android:orientation="vertical" />
     </ScrollView>
 
-<Button
-    android:id="@+id/buttonAddPill"
-    android:layout_width="308dp"
-    android:layout_height="51dp"
-    android:background="@drawable/button_next"
-    android:text="Добавить лекарство"
-    android:textSize="20sp"
-    android:textColor="#EBE2D8"
-    android:textAllCaps="false"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.489"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.841" />
+    <!-- Кнопка добавления нового лекарства с кастомным фоном -->
+    <Button
+        android:id="@+id/buttonAddPill"
+        android:layout_width="308dp"
+        android:layout_height="51dp"
+        android:background="@drawable/button_next"
+        android:text="Добавить лекарство"
+        android:textSize="20sp"
+        android:textColor="#EBE2D8"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.841" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

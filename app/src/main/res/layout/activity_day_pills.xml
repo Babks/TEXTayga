@@ -54,6 +54,7 @@
             android:layout_weight="1"
             android:fillViewport="true">
 
+            <!-- Контейнер для списка лекарств -->
             <LinearLayout
                 android:id="@+id/pillsLayout"
                 android:layout_width="match_parent"
@@ -64,6 +65,7 @@
         </ScrollView>
     </LinearLayout>
 
+    <!-- Кнопка для открытия календаря -->
     <Button
         android:id="@+id/buttonCalandar"
         android:layout_width="36dp"
@@ -76,6 +78,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
+    <!-- Кнопка для перехода на главную страницу -->
     <Button
         android:id="@+id/buttonHomepage"
         android:layout_width="37dp"

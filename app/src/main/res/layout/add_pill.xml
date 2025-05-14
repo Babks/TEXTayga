@@ -8,6 +8,7 @@
     android:background="#EBE2D8"
     tools:context=".Add_Pill">
 
+    <!-- ScrollView для размещения всех элементов внутри вертикального контейнера -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,12 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Вертикальный LinearLayout для всех элементов -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="100dp">
 
+            <!-- Поле для ввода названия лекарства -->
             <EditText
                 android:id="@+id/EditTextPillName"
                 android:layout_width="308dp"
@@ -34,6 +37,7 @@
                 android:textColor="#382912"
                 android:textSize="20sp"/>
 
+            <!-- Поле для ввода даты приема -->
             <EditText
                 android:id="@+id/EditTextPillDate"
                 android:layout_width="308dp"
@@ -46,6 +50,7 @@
                 android:textColor="#382912"
                 android:textSize="20sp"/>
 
+            <!-- Поле для ввода количества -->
             <EditText
                 android:id="@+id/EditTextPillCount"
                 android:layout_width="308dp"
@@ -59,6 +64,7 @@
                 android:textColor="#382912"
                 android:textSize="20sp"/>
 
+            <!-- Поле для ввода дополнительной информации -->
             <EditText
                 android:id="@+id/EditTextPillInf"
                 android:layout_width="308dp"
@@ -71,6 +77,7 @@
                 android:textColor="#382912"
                 android:textSize="20sp"/>
 
+            <!-- Чекбокс для выбора диапазона дней -->
             <CheckBox
                 android:id="@+id/checkBoxRange"
                 android:layout_width="wrap_content"
@@ -79,6 +86,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Добавить для диапазона дней"/>
 
+            <!-- Layout для выбора диапазона дней -->
             <LinearLayout
                 android:id="@+id/rangeLayout"
                 android:layout_width="match_parent"
@@ -88,17 +96,20 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <!-- Текст с выбором дней приема -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Выберите дни приема:"/>
 
+                <!-- Контейнер с чекбоксами для выбора дней недели -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
+                    <!-- Чекбоксы для каждого дня недели -->
                     <CheckBox
                         android:id="@+id/monday"
                         android:layout_width="wrap_content"
@@ -133,6 +144,7 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
+                    <!-- Чекбоксы для оставшихся дней недели -->
                     <CheckBox
                         android:id="@+id/friday"
                         android:layout_width="wrap_content"
@@ -154,12 +166,14 @@
                         android:text="Вс"/>
                 </LinearLayout>
 
+                <!-- Текст с информацией о количестве приемов -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Общее количество приемов:"/>
 
+                <!-- Поле для ввода количества приемов -->
                 <EditText
                     android:id="@+id/editTextDaysCount"
                     android:layout_width="100dp"
@@ -169,6 +183,7 @@
                     android:inputType="number"/>
             </LinearLayout>
 
+            <!-- Кнопка для добавления лекарства -->
             <Button
                 android:id="@+id/buttonAddPill"
                 android:layout_width="308dp"
@@ -186,6 +201,7 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- Кнопка для открытия календаря -->
     <Button
         android:id="@+id/buttonCalandar"
         android:layout_width="36dp"
@@ -198,6 +214,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
+    <!-- Кнопка для перехода на главную страницу -->
     <Button
         android:id="@+id/buttonHomepage"
         android:layout_width="37dp"

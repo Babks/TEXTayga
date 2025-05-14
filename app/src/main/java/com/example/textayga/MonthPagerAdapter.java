@@ -3,7 +3,6 @@ package com.example.textayga;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -24,7 +23,7 @@ import java.util.Locale;
 public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.MonthViewHolder> {
 
     private final Context context;
-    private final Calendar baseDate = Calendar.getInstance();
+    private final Calendar baseDate = Calendar.getInstance(); // Базовая дата, от которой считаем месяцы
 
     public MonthPagerAdapter(Context context) {
         this.context = context;
@@ -33,8 +32,8 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
     @NonNull
     @Override
     public MonthViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Создаём представление месяца и настраиваем GridView на весь контейнер
         View view = LayoutInflater.from(context).inflate(R.layout.item_month, parent, false);
-        // Убедитесь, что GridView заполняет весь родительский контейнер
         GridView gridView = view.findViewById(R.id.calendarGrid);
         gridView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -44,17 +43,17 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
 
     @Override
     public void onBindViewHolder(@NonNull MonthViewHolder holder, int position) {
+        // Вычисляем нужный месяц, создаём и назначаем адаптер дней
         Calendar monthCalendar = (Calendar) baseDate.clone();
         monthCalendar.add(Calendar.MONTH, position - 500);
-
         CalendarDayAdapter dayAdapter = new CalendarDayAdapter(context, monthCalendar);
         holder.gridView.setAdapter(dayAdapter);
-        holder.dayAdapter = dayAdapter; // Сохраняем ссылку на адаптер
+        holder.dayAdapter = dayAdapter;
     }
 
     @Override
     public int getItemCount() {
-        return 1000; // Большое число для "бесконечного" перелистывания
+        return 1000; // Огромное число — создаёт ощущение бесконечной прокрутки месяцев
     }
 
     static class MonthViewHolder extends RecyclerView.ViewHolder {
@@ -63,25 +62,19 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
 
         MonthViewHolder(@NonNull View itemView) {
             super(itemView);
-            gridView = itemView.findViewById(R.id.calendarGrid);
-        }
-
-        public void setSelectedDay(int day) {
-            if (dayAdapter != null) {
-                dayAdapter.setSelectedDay(day);
-            }
+            gridView = itemView.findViewById(R.id.calendarGrid); // Получаем GridView из макета
         }
     }
 
+    // Адаптер для отображения дней в сетке месяца
     private static class CalendarDayAdapter extends BaseAdapter {
         private Context context;
         private Calendar calendar;
         private String[] days;
         private int selectedDay = -1;
-        private final Calendar today = Calendar.getInstance();
-        private int lastSelectedDay = -1; // Для отслеживания предыдущего выбора
+        private final Calendar today = Calendar.getInstance(); // Текущая дата для подсветки
 
-        // Цвета и ресурсы
+        // Цвета для выделения
         private final int selectedColor = Color.parseColor("#E7BBA2");
         private final int defaultTextColor = Color.BLACK;
         private final int selectedTextColor = Color.WHITE;
@@ -89,19 +82,21 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
         public CalendarDayAdapter(Context context, Calendar calendar) {
             this.context = context;
             this.calendar = calendar;
-            this.days = generateDaysArray(calendar);
+            this.days = generateDaysArray(calendar); // Генерируем массив дней месяца
 
-            // Выделяем сегодняшний день по умолчанию, если это текущий месяц
+            // Автовыбор текущего дня, если это текущий месяц
             if (isSameMonth(calendar, today)) {
                 selectedDay = today.get(Calendar.DAY_OF_MONTH);
             }
         }
 
+        // Проверяет, одинаковы ли два месяца
         private boolean isSameMonth(Calendar cal1, Calendar cal2) {
             return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                     cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
         }
 
+        // Генерирует массив из 42 ячеек (6 недель), заполняя числами и пустыми ячейками
         private String[] generateDaysArray(Calendar cal) {
             Calendar temp = (Calendar) cal.clone();
             temp.set(Calendar.DAY_OF_MONTH, 1);
@@ -109,19 +104,17 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
             int firstDayOfWeek = temp.get(Calendar.DAY_OF_WEEK);
             int daysInMonth = temp.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-            String[] daysArray = new String[42]; // 6 недель максимум
+            String[] daysArray = new String[42]; // 6 строк по 7 дней
 
-            // Заполняем пустые дни перед первым числом
-            int startDay = firstDayOfWeek - 2; // Для Пн=0, Вт=1 и т.д.
+            int startDay = firstDayOfWeek - 2; // Смещение, чтобы неделя начиналась с понедельника
             if (startDay < 0) startDay += 7;
 
             for (int i = 0; i < startDay; i++) {
-                daysArray[i] = "";
+                daysArray[i] = ""; // Пустые ячейки до начала месяца
             }
 
-            // Заполняем дни месяца
             for (int i = 1; i <= daysInMonth; i++) {
-                daysArray[startDay + i - 1] = String.valueOf(i);
+                daysArray[startDay + i - 1] = String.valueOf(i); // Заполнение числами
             }
 
             return daysArray;
@@ -129,23 +122,24 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
 
         @Override
         public int getCount() {
-            return days.length;
+            return days.length; // Всегда 42 ячейки
         }
 
         @Override
         public Object getItem(int position) {
-            return days[position];
+            return days[position]; // Возвращает значение дня в позиции
         }
 
         @Override
         public long getItemId(int position) {
-            return position;
+            return position; // ID равен позиции
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView dayView;
             if (convertView == null) {
+                // Создаём ячейку с базовыми стилями и поведением
                 dayView = new TextView(context);
                 dayView.setLayoutParams(new GridView.LayoutParams(
                         dpToPx(40), dpToPx(40)));
@@ -159,24 +153,23 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
                         Calendar selectedDate = (Calendar) calendar.clone();
                         selectedDate.set(Calendar.DAY_OF_MONTH, day);
 
-                        // Формат для отображения
+                        // Формат даты для отображения
                         SimpleDateFormat displayFormat = new SimpleDateFormat("d MMMM, yyyy", new Locale("ru"));
                         String displayDateStr = displayFormat.format(selectedDate.getTime());
 
-                        // Формат для хранения и сравнения
+                        // Формат даты для передачи/хранения
                         SimpleDateFormat storageFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                         String storageDateStr = storageFormat.format(selectedDate.getTime());
 
+                        // Переход на экран с приёмом лекарств на выбранный день
                         Intent intent = new Intent(context, DayPillsActivity.class);
                         intent.putExtra("selectedDate", displayDateStr);
                         intent.putExtra("storageDate", storageDateStr);
-
-                        // Добавляем флаг для очистки стека активностей
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         context.startActivity(intent);
 
-                        // Закрываем текущую активность календаря
+                        // Закрываем активность календаря, если она запущена
                         if (context instanceof Calandar) {
                             ((Calandar) context).finish();
                         }
@@ -186,11 +179,11 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
                 dayView = (TextView) convertView;
             }
 
-            // Безопасная установка текста
+            // Устанавливаем текст дня
             String dayText = days[position];
             dayView.setText(dayText != null ? dayText : "");
 
-            // Настройка внешнего вида с проверкой на null
+            // Стилизация ячейки: выделение выбранного и сегодняшнего дня
             if (dayText != null && !dayText.isEmpty()) {
                 try {
                     int day = Integer.parseInt(dayText);
@@ -199,22 +192,24 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
                         GradientDrawable bg = new GradientDrawable();
                         bg.setShape(GradientDrawable.OVAL);
                         bg.setColor(selectedColor);
-                        dayView.setBackground(bg); // Исправлено: убрано createFromPath
+                        dayView.setBackground(bg); // Выделение выбранного дня
                         dayView.setTextColor(selectedTextColor);
                     } else {
                         dayView.setBackgroundResource(0);
                         dayView.setTextColor(defaultTextColor);
 
+                        // Подсвечиваем сегодняшний день, если он в текущем месяце
                         if (isSameMonth(calendar, today) && day == today.get(Calendar.DAY_OF_MONTH)) {
                             dayView.setTextColor(Color.RED);
                         }
                     }
                 } catch (NumberFormatException e) {
-                    // Обработка ошибки парсинга числа
+                    // Если ячейка не содержит число — сбросить стили
                     dayView.setBackgroundResource(0);
                     dayView.setTextColor(defaultTextColor);
                 }
             } else {
+                // Пустые ячейки — сброс стилей
                 dayView.setBackgroundResource(0);
                 dayView.setTextColor(defaultTextColor);
             }
@@ -222,12 +217,7 @@ public class MonthPagerAdapter extends RecyclerView.Adapter<MonthPagerAdapter.Mo
             return dayView;
         }
 
-        public void setSelectedDay(int day) {
-            lastSelectedDay = selectedDay;
-            selectedDay = day;
-            notifyDataSetChanged(); // Обновляем все элементы
-        }
-
+        // Перевод dp в пиксели с учётом плотности экрана
         private int dpToPx(int dp) {
             return (int) (dp * context.getResources().getDisplayMetrics().density);
         }
