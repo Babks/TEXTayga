@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBE2D8"
+    tools:context=".Add_Pill">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
+
+            <EditText
+                android:id="@+id/EditTextPillName"
+                android:layout_width="308dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="130dp"
+                android:background="@drawable/rectangle_border_image2"
+                android:hint="Название лекарства"
+                android:paddingLeft="34dp"
+                android:textColor="#382912"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/EditTextPillDate"
+                android:layout_width="308dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_border_image2"
+                android:hint="Дата приема"
+                android:paddingLeft="34dp"
+                android:textColor="#382912"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/EditTextPillCount"
+                android:layout_width="308dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_border_image2"
+                android:hint="Количество"
+                android:inputType="number"
+                android:paddingLeft="34dp"
+                android:textColor="#382912"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/EditTextPillInf"
+                android:layout_width="308dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_border_image2"
+                android:hint="Доп. информация"
+                android:paddingLeft="34dp"
+                android:textColor="#382912"
+                android:textSize="20sp"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="16dp"
+                android:text="Добавить для диапазона дней"/>
+
+            <LinearLayout
+                android:id="@+id/rangeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выберите дни приема:"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/monday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Пн"
+                        android:layout_marginEnd="16dp"/>
+
+                    <CheckBox
+                        android:id="@+id/tuesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Вт"
+                        android:layout_marginEnd="16dp"/>
+
+                    <CheckBox
+                        android:id="@+id/wednesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ср"
+                        android:layout_marginEnd="16dp"/>
+
+                    <CheckBox
+                        android:id="@+id/thursday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Чт"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/friday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Пт"
+                        android:layout_marginEnd="16dp"/>
+
+                    <CheckBox
+                        android:id="@+id/saturday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сб"
+                        android:layout_marginEnd="16dp"/>
+
+                    <CheckBox
+                        android:id="@+id/sunday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Вс"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Общее количество приемов:"/>
+
+                <EditText
+                    android:id="@+id/editTextDaysCount"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="например, 6"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAddPill"
+                android:layout_width="308dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/button_next"
+                android:clickable="true"
+                android:enabled="true"
+                android:text="Добавить лекарство"
+                android:textAllCaps="false"
+                android:textColor="#EBE2D8"
+                android:textSize="20sp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonCalandar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/calandar_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <Button
+        android:id="@+id/buttonHomepage"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:background="@drawable/homepage_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

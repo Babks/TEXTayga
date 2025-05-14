@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.textayga">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TEXTayga"
+        tools:targetApi="31">
+
+        <!-- WorkManager services with merge and replace -->
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            tools:node="merge"
+            tools:replace="android:enabled" />
+
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            tools:node="merge"
+            tools:replace="android:enabled" />
+
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            tools:node="merge"
+            tools:replace="android:enabled" />
+
+        <!-- Your activities -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".NotificationReceiver"
+            android:exported="false" />
+
+        <activity
+            android:name=".DayPillsActivity"
+            android:configChanges="locale|orientation|screenSize"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".Calandar"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainMenu"
+            android:exported="false" />
+
+        <activity
+            android:name=".Add_Pill"
+            android:exported="false" />
+
+        <activity
+            android:name=".NoGoalMenu"
+            android:exported="false" />
+    </application>
+</manifest>

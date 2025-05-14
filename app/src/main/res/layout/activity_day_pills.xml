@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBE2D8"
+    tools:context=".DayPillsActivity">
+
+    <!-- Основной контейнер с вертикальным расположением -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#FDF4EB"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Заголовок с датой -->
+        <TextView
+            android:id="@+id/dateTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="24dp"
+            android:textColor="#2F281F"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:textAlignment="center"/>
+
+        <!-- Подзаголовок "Список лекарств" -->
+        <TextView
+            android:layout_width="308dp"
+            android:layout_height="63dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingTop="15dp"
+            android:text="Список лекарств"
+            android:background="@drawable/rectangle_border_image2"
+            android:textSize="18sp"
+            android:textColor="#2F281F"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- ScrollView только для списка лекарств -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/pillsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="@drawable/divider"
+                android:showDividers="middle"/>
+        </ScrollView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonCalandar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/calandar_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <Button
+        android:id="@+id/buttonHomepage"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:background="@drawable/homepage_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

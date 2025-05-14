@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="29dp"
+    android:height="28dp"
+    android:viewportWidth="29"
+    android:viewportHeight="28">
+
+    <!-- Красный круг -->
+    <path
+        android:fillColor="#DE5050"
+        android:pathData="M14.5,28a14,14 0,1 1,0 -28,14,14 0,0 1,0 28z"/>
+
+    <!-- Белый X -->
+    <group android:pivotX="14.5" android:pivotY="14">
+        <!-- Линия \ -->
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M9,9 L20,20"/>
+        <!-- Линия / -->
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M20,9 L9,20"/>
+    </group>
+</vector>

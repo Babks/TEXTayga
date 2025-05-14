@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <!-- Круглая обводка -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2F281F"
+        android:strokeWidth="2"
+        android:pathData="M16,2A14,14 0,1 1,2 16,14 14,0 0,1 16,2z"/>
+    <!-- Галочка -->
+    <path
+        android:fillColor="#382912"
+        android:pathData="M12,21.17L7.83,17l-1.42,1.41L12,24 24,12l-1.41,-1.41z"
+        android:strokeWidth="0.5"
+        android:strokeColor="#382912"/>
+</vector>

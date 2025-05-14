@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBE2D8"
+    tools:context=".MainMenu">
+
+    <Button
+        android:id="@+id/buttonCalandar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/calandar_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/textViewMainMenu"
+        android:layout_width="293dp"
+        android:layout_height="36dp"
+        android:text="Сегодня"
+        android:textAlignment="center"
+        android:textColor="#2F281F"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.125" />
+
+
+    <TextView
+        android:id="@+id/textViewProgress"
+        android:layout_width="308dp"
+        android:layout_height="89dp"
+        android:background="@drawable/rectangle_border_image2"
+        android:drawablePadding="10dp"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:text="Таблеток принято: 0% из 100% \n Пропущено: 0%"
+        android:textAlignment="textStart"
+        android:textColor="#382912"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.211" />
+
+    <TextView
+        android:id="@+id/textViewSpisok"
+        android:layout_width="90dp"
+        android:layout_height="36dp"
+        android:text="Список"
+        android:textStyle="bold"
+        android:textColor="#2F281F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.211"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.352" />
+    <ScrollView
+        android:layout_width="308dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.602">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutPills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+<Button
+    android:id="@+id/buttonAddPill"
+    android:layout_width="308dp"
+    android:layout_height="51dp"
+    android:background="@drawable/button_next"
+    android:text="Добавить лекарство"
+    android:textSize="20sp"
+    android:textColor="#EBE2D8"
+    android:textAllCaps="false"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.489"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.841" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

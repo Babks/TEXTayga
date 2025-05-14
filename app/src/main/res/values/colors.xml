@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="fon">#ebe2d8</color>
+    <color name="background_color">#FDF4EB</color>
+        <!-- Цвета для кнопок -->
+        <color name="fixed_button_color">#382912</color>
+        <color name="fixed_button_text_color">#EBE2D8</color>
+
+        <!-- Цвета для EditText -->
+        <color name="fixed_hint_color">#382912</color>
+        <color name="fixed_text_color">#2F281F</color>
+        <color name="fixed_edittext_stroke">#2F281F</color>
+</resources>

@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Базовая тема -->
+    <style name="Base.Theme.TEXTayga" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Явно фиксируем светлую тему -->
+        <item name="isLightTheme">true</item>
+        <item name="android:forceDarkAllowed">false</item>
+
+        <!-- Стили для кнопок -->
+        <item name="materialButtonStyle">@style/MyButtonStyle</item>
+        <item name="materialButtonOutlinedStyle">@style/MyButtonStyle</item>
+
+        <!-- Стили для текстовых полей -->
+        <item name="editTextStyle">@style/MyEditTextStyle</item>
+        <item name="textInputStyle">@style/MyTextInputLayoutStyle</item>
+    </style>
+
+    <!-- Стиль кнопок -->
+    <style name="MyButtonStyle" parent="android:Widget.Button">
+        <item name="android:backgroundTint">@color/fixed_button_color</item>
+        <item name="android:textColor">@color/fixed_button_text_color</item>
+        <!-- Для Android 12+ -->
+        <item name="backgroundTint">@color/fixed_button_color</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <!-- Стиль EditText -->
+    <style name="MyEditTextStyle" parent="android:Widget.EditText">
+        <item name="android:textColorHint">@color/fixed_hint_color</item>
+        <item name="android:textColor">@color/fixed_text_color</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodyMedium</item>
+    </style>
+
+    <!-- Стиль TextInputLayout -->
+    <style name="MyTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">@color/fixed_hint_color</item>
+        <item name="boxStrokeColor">@color/fixed_edittext_stroke</item>
+        <item name="android:textColorHint">@color/fixed_hint_color</item>
+    </style>
+</resources>
