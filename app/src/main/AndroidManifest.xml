@@ -19,15 +19,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEXTayga"
         tools:targetApi="31">
-
-        <!-- WorkManager services with merge and replace -->
+        <activity
+            android:name=".PillDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AllPillsActivity"
+            android:exported="false" /> <!-- WorkManager services with merge and replace -->
         <service
             android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
             android:enabled="@bool/enable_system_alarm_service_default"
             android:exported="false"
             tools:node="merge"
             tools:replace="android:enabled" />
-
         <service
             android:name="androidx.work.impl.background.systemjob.SystemJobService"
             android:enabled="@bool/enable_system_job_service_default"
@@ -41,14 +44,13 @@
             android:enabled="@bool/enable_system_alarm_service_default"
             android:exported="false"
             tools:node="merge"
-            tools:replace="android:enabled" />
-
-        <!-- Your activities -->
+            tools:replace="android:enabled" /> <!-- Your activities -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,21 +64,18 @@
             android:configChanges="locale|orientation|screenSize"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
             android:name=".Calandar"
             android:exported="false" />
-
         <activity
             android:name=".MainMenu"
             android:exported="false" />
-
         <activity
             android:name=".Add_Pill"
             android:exported="false" />
-
         <activity
             android:name=".NoGoalMenu"
             android:exported="false" />
     </application>
+
 </manifest>

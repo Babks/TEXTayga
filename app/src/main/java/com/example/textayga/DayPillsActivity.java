@@ -201,6 +201,12 @@ public class DayPillsActivity extends AppCompatActivity {
         // Добавляем собранный элемент в список
         pillItem.addView(contentLayout);
         pillsLayout.addView(pillItem);
+
+        pillItem.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PillDetailsActivity.class);
+            intent.putExtra("pill", pill);
+            startActivity(intent);
+        });
     }
 
     // Добавляет иконку статуса таблетки (принята / пропущена)

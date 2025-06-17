@@ -247,6 +247,21 @@ public class Add_Pill extends AppCompatActivity {
         today.set(Calendar.MINUTE, minute);
         today.set(Calendar.SECOND, 0);
 
+        StringBuilder daysBuilder = new StringBuilder();
+        if (dayCheckboxes[0].isChecked()) daysBuilder.append("1,"); // Пн
+        if (dayCheckboxes[1].isChecked()) daysBuilder.append("2,"); // Вт
+        if (dayCheckboxes[2].isChecked()) daysBuilder.append("3,"); // Ср
+        if (dayCheckboxes[3].isChecked()) daysBuilder.append("4,"); // Чт
+        if (dayCheckboxes[4].isChecked()) daysBuilder.append("5,"); // Пт
+        if (dayCheckboxes[5].isChecked()) daysBuilder.append("6,"); // Сб
+        if (dayCheckboxes[6].isChecked()) daysBuilder.append("7,"); // Вс
+
+        if (daysBuilder.length() > 0) {
+            daysBuilder.setLength(daysBuilder.length() - 1); // Удаляем последнюю запятую
+            String daysKey = "pill_days_" + namePill.getText().toString().trim();
+            prefs.edit().putString(daysKey, daysBuilder.toString()).apply();
+        }
+
         // Если сегодня выбранный день недели
         if (selectedDays.contains(today.get(Calendar.DAY_OF_WEEK))) {
             savePillForDate(today);

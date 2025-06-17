@@ -60,6 +60,11 @@ public class MainMenu extends AppCompatActivity {
         updateProgress(); // Обновление отображения прогресса
         loadAllPills(); // Загрузка списка актуальных таблеток
         setupButtonListeners(); // Установка слушателей на кнопки
+
+        TextView textViewSpisok = findViewById(R.id.textViewSpisok);
+        textViewSpisok.setOnClickListener(v -> {
+            startActivity(new Intent(MainMenu.this, AllPillsActivity.class));
+        });
     }
 
     private void initViews() {
@@ -187,6 +192,13 @@ public class MainMenu extends AppCompatActivity {
             descView.setPadding(0, 8, 0, 0);
             pillContainer.addView(descView);
         }
+
+        // Добавляем обработчик нажатия на контейнер
+        pillContainer.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PillDetailsActivity.class);
+            intent.putExtra("pill", pill);
+            startActivity(intent);
+        });
 
         // Добавляем кнопки принятия/отклонения
         addActionButtons(pillContainer, pill);
