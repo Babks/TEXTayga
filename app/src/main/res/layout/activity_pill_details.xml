@@ -8,7 +8,7 @@
     android:background="#EBE2D8"
     tools:context=".PillDetailsActivity">
 
-    <!-- Кнопка Home (верхний левый угол) -->
+    <!-- Кнопка Home -->
     <Button
         android:id="@+id/buttonHomepage"
         android:layout_width="37dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Кнопка Calendar (верхний правый угол) -->
+    <!-- Кнопка Calandar -->
     <Button
         android:id="@+id/buttonCalandar"
         android:layout_width="36dp"
